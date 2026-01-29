@@ -1,0 +1,34 @@
+version: 2.1
+
+# define the parameter that will be passed from the setup workflow
+parameters:
+  further:
+    type: boolean
+    default: false
+
+jobs:
+  - module-build:
+      docker:
+        - image: cimg/node:24.0.1
+      steps:
+        - run:
+            name: Check directory
+            command: pwd
+  - trigger-frontend-e2e-generate-png-snapshots:
+      requires:
+        - module-build
+      type: approval
+      docker:
+        - image: cimg/node:24.0.1
+      steps:
+        - run:
+            name: Echo and sleep
+            command: |
+              echo "this is the trigger-frontend-e2e-generate-png-snapshots job"
+              sleep 1m
+
+workflows:
+  module-workflow:
+    when: << pipeline.parameters.further >>
+    jobs:
+      - module-build
