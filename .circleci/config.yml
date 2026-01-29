@@ -1,26 +1,22 @@
 version: 2.1
 
-# Define the jobs we want to run for this project
-jobs:
-  build:
-    docker:
-      - image: cimg/base:2023.03
-    steps:
-      - checkout
-      - run: |
-          echo "this is the build job"
-          echo "testing github status update"
-          sleep 3m
-  test:
-    docker:
-      - image: cimg/base:2023.03
-    steps:
-      - checkout
-      - run: echo "this is the test job"
+# define this file as the setup phase of your dynamic configuration
+setup: true
 
-# Orchestrate our job run sequence
+# invoke the continuation orb to make the continuation/continue command available
+orbs:
+  continuation: circleci/continuation@1.1.0
+
+jobs:
+  set-param:
+    docker:
+      - image: cimg/node:24.0.1
+    steps:
+      - continuation/continue:
+          parameters: '{ "further": true }'
+          configuration_path: ./config_continue.yml
+
 workflows:
-  build_and_test:
+  use-my-orb:
     jobs:
-      - build
-      - test
+      - set-param
