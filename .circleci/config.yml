@@ -8,5 +8,12 @@ orbs:
 workflows:
   setup1:
     jobs:
+      - module-build:
+          docker:
+            - image: cimg/node:24.0.1
+          steps:
+            - run:
+                name: Check directory
+                command: pwd
       - continuation/continue:
           configuration_path: ./circleci/continue.yml
