@@ -22,4 +22,4 @@ workflows:
     jobs:
       - check-dir
       - continuation/continue:
-          configuration_path: ./circleci/continue.yml
+          configuration_path: .circleci/continue.yml
