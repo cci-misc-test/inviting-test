@@ -1,23 +1,25 @@
 version: 2.1
 
-# Define the jobs we want to run for this project
-jobs:
-  build:
-    docker:
-      - image: cimg/base:2023.03
-    steps:
-      - checkout
-      - run: echo "this is the build jobsss"
-  test:
-    docker:
-      - image: cimg/base:2023.03
-    steps:
-      - checkout
-      - run: echo "this is the test job"
+setup: true
 
-# Orchestrate our job run sequence
+orbs:
+  continuation: circleci/continuation@1.1.0
+
+jobs:
+  check-dir:
+    docker:
+      - image: cimg/node:24.0.1
+    steps:
+      - checkout
+      - run:
+          name: Check directory
+          command: |
+            pwd
+            ls -al
+
 workflows:
-  build_and_test:
+  setup1:
     jobs:
-      - build
-      - test
+      - check-dir
+      - continuation/continue:
+          configuration_path: .circleci/continue.yml
