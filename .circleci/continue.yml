@@ -1,0 +1,11 @@
+version: 2.1
+
+jobs:
+  echo:
+    steps:
+     - echo "continue" 
+
+workflows:
+  continue_workflow:
+    jobs:
+      - echo
