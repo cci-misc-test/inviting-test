@@ -13,7 +13,6 @@ jobs:
       - image: cimg/node:24.0.1
     steps:
       - continuation/continue:
-          parameters: '{ "further": true }'
           configuration_path: .circleci/continue.yml
 
 workflows:
