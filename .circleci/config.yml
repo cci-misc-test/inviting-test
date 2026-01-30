@@ -1,25 +1,22 @@
 version: 2.1
 
+# define this file as the setup phase of your dynamic configuration
 setup: true
 
+# invoke the continuation orb to make the continuation/continue command available
 orbs:
   continuation: circleci/continuation@1.1.0
 
 jobs:
-  check-dir:
+  set-param:
     docker:
       - image: cimg/node:24.0.1
     steps:
-      - checkout
-      - run:
-          name: Check directory
-          command: |
-            pwd
-            ls -al
+      - continuation/continue:
+          parameters: '{ "further": true }'
+          configuration_path: .circleci/continue.yml
 
 workflows:
-  setup1:
+  use-my-orb:
     jobs:
-      - check-dir
-      - continuation/continue:
-          configuration_path: .circleci/continue.yml
+      - set-param
