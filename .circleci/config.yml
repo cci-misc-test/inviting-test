@@ -12,11 +12,11 @@ jobs:
     docker:
       - image: cimg/node:24.0.1
     steps:
+      - checkout
       - continuation/continue:
           configuration_path: .circleci/continue.yml
 
 workflows:
   use-my-orb:
     jobs:
-      - checkout
       - set-param
