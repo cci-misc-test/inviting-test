@@ -18,4 +18,5 @@ jobs:
 workflows:
   use-my-orb:
     jobs:
+      - checkout
       - set-param
